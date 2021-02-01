@@ -1,0 +1,14 @@
+uuid: 5deb6c67-1edb-46f5-ae90-3ddb1eb95b22
+name: 'Deptagency Test'
+mail: test@example.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node
+admin_compact_mode: false
+weight_select_max: 100
+langcode: en
+default_langcode: en
+_core:
+  default_config_hash: yTxtFqBHnEWxQswuWvkjE8mKw2t8oKuCL1q8KnfHuGE
