@@ -1,6 +1,6 @@
 name: Deptagency User Auth Token
 type: module
-description: Contains user auth token authentication related functionality.
+description: Contains user token authentication related functionality.
 package: Deptagency
 core: 8.x
 core_version_requirement: ^8 || ^9

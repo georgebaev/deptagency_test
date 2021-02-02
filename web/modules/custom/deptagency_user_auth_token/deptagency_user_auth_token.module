@@ -3,8 +3,21 @@
 /**
  * @file
  * Primary module hooks for Deptagency User Auth Token module.
- *
- * @DCG
- * This file is no longer required in Drupal 8.
- * @see https://www.drupal.org/node/2217931
  */
+
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_create().
+ */
+function deptagency_user_auth_token_user_create(EntityInterface $entity) {
+  /** @var \Drupal\user\UserInterface $entity */
+  if (!$entity->hasField('auth_token')) {
+    return;
+  }
+
+  /** @var \Drupal\deptagency_user_auth_token\Processor $processor */
+  $processor = \Drupal::service('deptagency_user_auth_token.processor');
+
+  $entity->set('auth_token', $processor->generateAuthToken());
+}

@@ -1,10 +1,10 @@
 services:
-  deptagency_user_auth_token.event_subscriber:
-    class: Drupal\deptagency_user_auth_token\EventSubscriber\DeptagencyUserAuthTokenSubscriber
-    arguments: ['@messenger']
-    tags:
-      - { name: event_subscriber }
-
   deptagency_user_auth_token.processor:
     class: Drupal\deptagency_user_auth_token\Processor
     arguments: ['@entity_type.manager']
+
+  deptagency_user_auth_token.middleware:
+    class: Drupal\deptagency_user_auth_token\DeptagencyUserAuthTokenMiddleware
+    arguments: ['@deptagency_user_auth_token.processor']
+    tags:
+      - { name: http_middleware, priority: -1000 }

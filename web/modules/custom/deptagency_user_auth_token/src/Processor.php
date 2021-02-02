@@ -3,7 +3,7 @@
 namespace Drupal\deptagency_user_auth_token;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\user\Entity\User;
+use Drupal\user\UserInterface;
 
 /**
  * Processor service.
@@ -28,7 +28,10 @@ class Processor {
   }
 
   /**
-   * Method description.
+   * Generates the authentication token.
+   *
+   * @return string
+   *   The token.
    */
   public function generateAuthToken(): string {
     return substr(str_shuffle('0123456789012345678901234567890123456789'), 0, 32);
@@ -40,10 +43,10 @@ class Processor {
    * @param string $token
    *   The auth token.
    *
-   * @return \Drupal\user\Entity\User|null
+   * @return \Drupal\user\UserInterface|null
    *   The User instance or NULL if not found.
    */
-  public function findUser(string $token): ?User {
+  public function findUser(string $token): ?UserInterface {
     if (empty($token)) {
       return NULL;
     }
@@ -58,6 +61,27 @@ class Processor {
 
     // We assume the auth token is unique so there should be just one user.
     return current($users);
+  }
+
+  /**
+   * Authenticates the user.
+   *
+   * @param string $token
+   *   The authentication token.
+   *
+   * @return bool
+   *   TRUE if the user was authenticated, FALSE otherwise.
+   */
+  public function authenticateUser(string $token): bool {
+    $user = $this->findUser($token);
+
+    if (!$user) {
+      return FALSE;
+    }
+
+    user_login_finalize($user);
+
+    return TRUE;
   }
 
 }
